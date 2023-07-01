@@ -1,10 +1,12 @@
 from iiif_prezi3 import *
 from jsonpath_ng import parse
-
+from data import Data
 
 class Parse:
     def __init__(self, ctx):
         self.ctx = ctx
+        self.data = Data(ctx)
+        self.index = None
     
     def basic_headers(self):
         dict = {}
@@ -63,7 +65,6 @@ class Parse:
     def match_manifest_item(self, x):
         match x:
             case Canvas(items=items, annotations=annotations):
-                #self.match_canvas_items(items)
                 self.match_annotations(annotations)
             case _:
                 raise('ouch')
@@ -104,13 +105,21 @@ class Parse:
         return collection
 
 
-    def collection(self, x):
+    def process_collection(self, x):
         match x:
             case Collection(items=items):
                 for item in items:
                     self.match_collection_item(item)
             case _:
                 raise('ouch')
+            
+
+    def run(self, url):
+        self.index = self.data.create_index()
+        obj = self.get_collection(url)
+        self.process_collection(obj)
+        
+
 
 
         

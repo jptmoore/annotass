@@ -5,9 +5,8 @@ class Context:
     pass
 
 ctx = Context()
-ctx.session = requests_cache.CachedSession("annotass_cache")
+ctx.session = requests_cache.CachedSession("cache_annotass")
+ctx.index_fname = "index_annotass"
 
-
-p = Parse(ctx)
-collection = p.get_collection(url='https://miiifystore.s3.eu-west-2.amazonaws.com/iiif/collection.json')
-p.collection(collection)
+parse = Parse(ctx)
+parse.run(url='https://miiifystore.s3.eu-west-2.amazonaws.com/iiif/collection.json')
