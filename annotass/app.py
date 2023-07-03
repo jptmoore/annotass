@@ -17,4 +17,6 @@ ctx.store_fname = "store_annotass.sqlite"
 store = Store(ctx)
 store.open()
 store.write(uri='foo', annotation='{\"json1\": \"works\"}')
+row = store.read(uri='foo')
+print(row)
 store.close()

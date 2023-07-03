@@ -15,6 +15,17 @@ class Store:
         sql = f"insert into annotations (uri, data) values ('{uri}', json('{annotation}'));"
         cursor.execute(sql)
 
+    def read(self, uri):
+        cursor = self.conn.cursor()
+        sql = f"select data from annotations where uri = '{uri}';"
+        cursor.execute(sql)
+        row = cursor.fetchone()
+        match row:
+            case (x,):
+                return x
+            case _:
+                raise('ouch')
+
     def close(self):
         self.conn.commit()
         self.conn.close()
