@@ -1,5 +1,6 @@
 import sqlite3
 import os, os.path
+
 class Store:
     def __init__(self, ctx):
         if os.path.exists(ctx.store_fname):
@@ -12,13 +13,13 @@ class Store:
 
     def write(self, uri, annotation):
         cursor = self.conn.cursor()
-        sql = f"insert into annotations (uri, data) values ('{uri}', json('{annotation}'));"
-        cursor.execute(sql)
+        sql = f"insert into annotations (uri, data) values (?, ?);"
+        cursor.execute(sql, (uri, annotation))
 
     def read(self, uri):
         cursor = self.conn.cursor()
-        sql = f"select data from annotations where uri = '{uri}';"
-        cursor.execute(sql)
+        sql = f"select data from annotations where uri = :uri;"
+        cursor.execute(sql, {"uri": uri})
         row = cursor.fetchone()
         match row:
             case (x,):

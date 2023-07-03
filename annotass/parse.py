@@ -1,12 +1,14 @@
 from iiif_prezi3 import *
 from jsonpath_ng import parse
 from data import Data
+from store import Store
 
 class Parse:
     def __init__(self, ctx):
         self.ctx = ctx
         self.data = Data(ctx)
         self.index = None
+        self.store = Store(ctx)
     
     def basic_headers(self):
         dict = {}
@@ -53,6 +55,7 @@ class Parse:
         match x:
             case AnnotationPage(id=id, type='AnnotationPage'):
                 content = self.get_annotation_page_content(id)
+                self.store.write(uri=id, annotation=str(content))
                 commenting = self.match_annotation_page_body_value(content)
                 target = self.match_annotation_page_target(content)
                 self.write_data(target,commenting)
@@ -125,7 +128,9 @@ class Parse:
     def run(self, url):
         self.index = self.data.create_index()
         obj = self.get_collection(url)
+        self.store.open()
         self.process_collection(obj)
+        self.store.close()
         
 
 
