@@ -9,7 +9,7 @@ class Context:
 ctx = Context()
 ctx.session = requests_cache.CachedSession("cache_annotass.sqlite")
 ctx.index_fname = "index_annotass"
-ctx.db_name = "store_annotass.sqlite"
+ctx.store_fname = "store_annotass.sqlite"
 
 # parse = Parse(ctx)
 # parse.run(url='https://miiifystore.s3.eu-west-2.amazonaws.com/iiif/collection.json')

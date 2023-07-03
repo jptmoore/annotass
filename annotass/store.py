@@ -1,8 +1,10 @@
 import sqlite3
-
+import os, os.path
 class Store:
     def __init__(self, ctx):
-        self.conn = sqlite3.connect(ctx.db_name)
+        if os.path.exists(ctx.store_fname):
+            os.remove(ctx.store_fname)
+        self.conn = sqlite3.connect(ctx.store_fname)
 
     def open(self):
         cursor = self.conn.cursor()
