@@ -125,6 +125,12 @@ class Parse:
         self.store.open()
         self.process_collection(obj)
         self.store.close()
+
+
+    def search(self, q, page):
+        (total, uris) = self.data.search_data(q, page)
+        return uris
+
         
 
 

@@ -1,10 +1,12 @@
 import os, os.path
 from whoosh.index import create_in
 from whoosh.fields import *
+from whoosh.qparser import QueryParser
 
 class Data:
     def __init__(self, ctx):
         self.index_fname = ctx.index_fname
+        self.annotation_limit = ctx.annotation_limit
         self.schema = Schema(id=ID(stored=True), content=TEXT)
         self.idx = None
 
@@ -21,6 +23,25 @@ class Data:
         return idx 
 
 
+    def search_data(self, term, page):
+        try:
+            if page < 0: return (0, [])
+            qp = QueryParser("content", schema=self.idx.schema)
+            query = qp.parse(term)
+            with self.idx.searcher() as s:
+                page_length = self.annotation_limit
+                results = s.search_page(query, page+1, pagelen=page_length)
+                results_length = len(results)
+                if page > (results_length / page_length): return (0, [])
+                uris = []
+                for r in results:
+                    uri = r.get('id')
+                    uris.append(uri)
+                result = (results_length, uris)
+        except Exception as e:
+            print("ouch")
+        else:
+            return result
         
 
 
