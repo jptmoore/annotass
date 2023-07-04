@@ -123,13 +123,21 @@ class Parse:
         self.index = self.data.create_index()
         obj = self.get_collection(url)
         self.store.open()
+        self.store.create_table()
         self.process_collection(obj)
-        self.store.close()
+        self.store.commit()
 
 
     def search(self, q, page):
         (total, uris) = self.data.search_data(q, page)
-        return uris
+        items = []
+        for uri in uris:
+            item = self.store.read(uri)
+            items.append(item)
+        return items
+    
+    def shutdown(self):
+        self.store.close()
 
         
 

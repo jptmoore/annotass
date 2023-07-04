@@ -3,11 +3,15 @@ import os, os.path
 
 class Store:
     def __init__(self, ctx):
+        self.conn = None
+        self.store_fname = ctx.store_fname
         if os.path.exists(ctx.store_fname):
             os.remove(ctx.store_fname)
-        self.conn = sqlite3.connect(ctx.store_fname)
 
     def open(self):
+        self.conn = sqlite3.connect(self.store_fname)
+
+    def create_table(self):
         cursor = self.conn.cursor()
         cursor.execute('create table annotations (uri TEXT PRIMARY KEY, data JSON);')
 
@@ -27,7 +31,8 @@ class Store:
             case _:
                 raise('ouch')
 
-    def close(self):
-        self.conn.commit()
-        self.conn.close()
+    def commit(self):
+        self.conn.commit()   
 
+    def close(self):
+        self.conn.close()
