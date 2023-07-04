@@ -1,5 +1,7 @@
 import sqlite3
 import os, os.path
+import ast
+
 
 class Store:
     def __init__(self, ctx):
@@ -9,7 +11,7 @@ class Store:
             os.remove(ctx.store_fname)
 
     def open(self):
-        self.conn = sqlite3.connect(self.store_fname)
+        self.conn = sqlite3.connect(self.store_fname, check_same_thread=False)
 
     def create_table(self):
         cursor = self.conn.cursor()
@@ -27,7 +29,7 @@ class Store:
         row = cursor.fetchone()
         match row:
             case (x,):
-                return x
+                return ast.literal_eval(x)
             case _:
                 raise('ouch')
 
