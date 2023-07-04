@@ -37,15 +37,10 @@ class Parse:
         jsonpath_expression = parse("items[*].body.value")
         result = [match.value for match in jsonpath_expression.find(content)]
         return result
-    
-    def match_annotation_page_target(self, content):
-        jsonpath_expression = parse("items[*].target")
-        result = [match.value for match in jsonpath_expression.find(content)]
-        return result
 
-    def write_data(self, target, commenting):
-        match target, commenting:
-            case [id], [text]:
+    def write_data(self, id, commenting):
+        match id, commenting:
+            case id, [text]:
                 self.data.write_data(id, text)
             case _:
                 raise "ouch"
@@ -57,8 +52,7 @@ class Parse:
                 content = self.get_annotation_page_content(id)
                 self.store.write(uri=id, annotation=str(content))
                 commenting = self.match_annotation_page_body_value(content)
-                target = self.match_annotation_page_target(content)
-                self.write_data(target,commenting)
+                self.write_data(id,commenting)
             case _:
                 raise('ouch')
 
