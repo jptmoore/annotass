@@ -2,6 +2,7 @@ from iiif_prezi3 import *
 from jsonpath_ng import parse
 from data import Data
 from store import Store
+from response import Response
 
 class Parse:
     def __init__(self, ctx):
@@ -9,6 +10,7 @@ class Parse:
         self.data = Data(ctx)
         self.index = None
         self.store = Store(ctx)
+        self.response = Response(ctx)
     
     def basic_headers(self):
         dict = {}
@@ -134,7 +136,8 @@ class Parse:
         for uri in uris:
             item = self.store.read(uri)
             items.append(item)
-        return items
+        result = self.response.build(q, page, total, items)
+        return result
     
     def shutdown(self):
         self.store.close()
