@@ -31,7 +31,8 @@ def search():
     page = request.args.get('page', 0, type=int)
     response = parse.search(q, page)
     custom_response = make_response(response)
+    if ctx.cors: custom_response.headers['Access-Control-Allow-Origin'] = '*'
     return custom_response
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0', debug=ctx.debug, port=ctx.server_port)
