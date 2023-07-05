@@ -1,17 +1,19 @@
 from iiif_prezi3 import *
 from jsonpath_ng import parse
+import requests_cache
 from data import Data
 from store import Store
 from response import Response
 
 class Parse:
     def __init__(self, ctx):
-        self.ctx = ctx
         self.data = Data(ctx)
         self.index = None
         self.store = Store(ctx)
         self.response = Response(ctx)
-    
+        self.cache = requests_cache.CachedSession(ctx.cache_fname)
+
+
     def basic_headers(self):
         dict = {}
         return dict
@@ -19,7 +21,7 @@ class Parse:
     def get_json(self, url):
         headers = self.basic_headers()
         try:
-            response = self.ctx.session.get(url, verify=False, headers=headers)
+            response = self.cache.get(url, verify=False, headers=headers)
         except Exception as e:
             print(f"failed to get annotation: {repr(e)}")
             return None

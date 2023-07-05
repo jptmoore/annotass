@@ -1,4 +1,3 @@
-import requests_cache
 from flask import Flask, request, make_response, abort
 from parse import Parse
 
@@ -6,7 +5,7 @@ class Context:
     pass
 
 ctx = Context()
-ctx.session = requests_cache.CachedSession("cache_annotass.sqlite")
+ctx.cache_fname = "cache_annotass.sqlite"
 ctx.index_fname = "index_annotass"
 ctx.store_fname = "store_annotass.sqlite"
 ctx.annotation_limit = 10
