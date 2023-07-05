@@ -1,14 +1,22 @@
 from flask import Flask, request, make_response, abort
 from parse import Parse
+from configparser import ConfigParser
+
+config_ini = ConfigParser()
+config_ini.read("config.ini")
 
 class Context:
     pass
 
 ctx = Context()
-ctx.cache_fname = "cache_annotass.sqlite"
-ctx.index_fname = "index_annotass"
-ctx.store_fname = "store_annotass.sqlite"
-ctx.annotation_limit = 10
+ctx.version = config_ini.get("main", "VERSION")
+ctx.annotation_limit = config_ini.getint("annotass", "ANNOTATION_LIMIT")
+ctx.cache_fname = config_ini.get("annotass", "CACHE_FNAME")
+ctx.index_fname = config_ini.get("annotass", "INDEX_FNAME")
+ctx.store_fname = config_ini.get("annotass", "STORE_FNAME") 
+ctx.server_port = config_ini.getint("annotass", "SERVER_PORT")
+ctx.debug = config_ini.getboolean("annotass", "DEBUG")
+ctx.cors = config_ini.getboolean("annotass", "CORS")
 ctx.search_url = "https://miiify.rocks/iiif/content/search"
 
 parse = Parse(ctx)
