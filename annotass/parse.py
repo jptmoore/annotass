@@ -43,7 +43,7 @@ class Parse:
             id = item['id']
             commenting = item['body']['value']
             self.data.write_data(id=id, content=commenting)
-            self.store.write(uri=id, annotation=str(items))
+            self.store.write(uri=id, annotation=str(item))
 
 
     def match_annotation_content_item(self, x):
