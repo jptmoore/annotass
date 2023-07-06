@@ -93,6 +93,8 @@ class Parse:
         return manifest
 
 
+
+
     def get_manifest_ref(self, id):
         manifest = self.get_manifest_content(id)
         match manifest:
@@ -116,12 +118,6 @@ class Parse:
                 raise('ouch')
         
 
-    def get_collection(self, url):
-        json = self.get_json(url)
-        collection = Collection(**json)
-        return collection
-
-
     def process_collection(self, x):
         match x:
             case Collection(items=items):
@@ -129,15 +125,42 @@ class Parse:
                     self.match_collection_item(item)
             case _:
                 raise('ouch')
-            
+
+
+    def run_collection(self, json):
+        collection = Collection(**json)
+        self.store.open()
+        self.store.create_table()
+        self.process_collection(collection)
+        self.store.commit()        
+
+
+    def process_manifest(self, x):
+        match x:
+            case Manifest(items=items):
+                for item in items:
+                    self.match_manifest_item(item)
+            case _:
+                raise('ouch')        
+
+    def run_manifest(self, json):
+        manifest = Manifest(**json)
+        self.store.open()
+        self.store.create_table()
+        self.process_manifest(manifest)
+        self.store.commit()          
+
 
     def run(self, url):
         self.index = self.data.create_index()
-        obj = self.get_collection(url)
-        self.store.open()
-        self.store.create_table()
-        self.process_collection(obj)
-        self.store.commit()
+        json = self.get_json(url)
+        match json['type']:
+            case 'Collection':
+                self.run_collection(json)
+            case 'Manifest':
+                self.run_manifest(json)            
+            case _:
+                raise "oopps"
 
 
     def search(self, q, page):
