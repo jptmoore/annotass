@@ -20,8 +20,8 @@ ctx.cors = config_ini.getboolean("annotass", "CORS")
 ctx.search_url = "https://miiify.rocks/iiif/content/search"
 
 parse = Parse(ctx)
-#parse.run(url='https://miiifystore.s3.eu-west-2.amazonaws.com/iiif/collection.json')
-parse.run(url='https://miiify.rocks/manifest/diamond_jubilee_of_the_metro')
+parse.run(url='https://miiifystore.s3.eu-west-2.amazonaws.com/iiif/collection.json')
+#parse.run(url='https://miiify.rocks/manifest/cats')
 
 
 app = Flask(__name__)

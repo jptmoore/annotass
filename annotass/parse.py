@@ -1,5 +1,4 @@
 from iiif_prezi3 import *
-from jsonpath_ng import parse
 import requests_cache
 from data import Data
 from store import Store
@@ -36,35 +35,22 @@ class Parse:
     def get_annotation_page_content(self, url):
         json = self.get_json(url)
         return json  
-
-    def match_annotation_page_body_value(self, content):
-        jsonpath_expression = parse("items[*].body.value")
-        result = [match.value for match in jsonpath_expression.find(content)]
-        return result
-    
-
-    def match_annotations_items(self, content):
-        jsonpath_expression = parse("items[*]")
-        result = [match.value for match in jsonpath_expression.find(content)]
-        return result
             
-
-    def write_data(self, id, commenting):
-        match id, commenting:
-            case id, [text]:
-                self.data.write_data(id, text)
-            case _:
-                raise "ouch"
+            
+    def write(self, content):
+        items = content['items']
+        for item in items:
+            id = item['id']
+            commenting = item['body']['value']
+            self.data.write_data(id=id, content=commenting)
+            self.store.write(uri=id, annotation=str(items))
 
 
     def match_annotation_content_item(self, x):
         match x:
             case AnnotationPage(id=id, type='AnnotationPage'):
                 content = self.get_annotation_page_content(id)
-                items = self.match_annotations_items(content)
-                self.store.write(uri=id, annotation=str(items))
-                commenting = self.match_annotation_page_body_value(content)
-                self.write_data(id,commenting)
+                self.write(content)
             case _:
                 raise('ouch')
 
