@@ -1,6 +1,6 @@
-from iiif_prezi3 import *
 import sys
 import requests_cache
+from iiif_prezi3 import Manifest, ManifestRef, CollectionRef, Collection, Canvas, Annotation, AnnotationPage
 from data import Data
 from store import Store
 from response import Response
@@ -27,7 +27,7 @@ class Parse:
     def get_json(self, url):
         headers = self.basic_headers()
         try:
-            response = self.cache.get(url, verify=False, headers=headers)
+            response = self.cache.get(url, headers=headers)
         except Exception as e:
             self.pp_exit('failed to fetch json')
         if response.status_code != 200:
