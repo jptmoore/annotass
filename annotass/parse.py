@@ -34,23 +34,38 @@ class Parse:
     
     def get_annotation_page_content(self, url):
         json = self.get_json(url)
-        return json  
-            
-            
-    def write(self, content):
-        items = content['items']
-        for item in items:
-            id = item['id']
-            commenting = item['body']['value']
-            self.data.write_data(id=id, content=commenting)
-            self.store.write(uri=id, annotation=str(item))
+        ap = AnnotationPage(**json)
+        return ap  
+                    
 
+    def match_w3c_annotation_item(self, x):
+        match x:
+            case Annotation(id=id, body=body):
+                self.data.write_data(id=id, content=body.value)
+                self.store.write(uri=id, annotation=x.json())
+            case _:
+                raise('ouch')        
+
+
+    def match_wc3_annotations(self, x):
+        match x:
+            case []:
+                print('empty')
+            case [*xs]:
+                for x in xs:
+                    self.match_w3c_annotation_item(x)
+            case _:
+                raise('oppps')        
 
     def match_annotation_content_item(self, x):
         match x:
-            case AnnotationPage(id=id, type='AnnotationPage'):
-                content = self.get_annotation_page_content(id)
-                self.write(content)
+            case AnnotationPage(id=id, type='AnnotationPage', items=items):
+                match items:
+                    case []:
+                        ap = self.get_annotation_page_content(id)
+                        self.match_annotation_content_item(ap)
+                    case [*xs]:
+                        self.match_wc3_annotations(xs)
             case _:
                 raise('ouch')
 
