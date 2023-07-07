@@ -111,6 +111,8 @@ class Parse:
         match x:
             case ManifestRef(id=id):
                 self.get_manifest_ref(id)
+            case Manifest(id=id):
+                print('Manifest')
             case CollectionRef():
                 print('CollectionRef')
             case Collection():
