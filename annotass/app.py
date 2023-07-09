@@ -2,6 +2,8 @@ from flask import Flask, request, make_response, abort
 from parse import Parse
 from configparser import ConfigParser
 
+import sys
+
 config_ini = ConfigParser()
 config_ini.read("config.ini")
 
@@ -19,12 +21,13 @@ ctx.debug = config_ini.getboolean("annotass", "DEBUG")
 ctx.cors = config_ini.getboolean("annotass", "CORS")
 ctx.search_url = "https://miiify.rocks/iiif/content/search"
 
-parse = Parse(ctx)
-#parse.run(url='https://miiifystore.s3.eu-west-2.amazonaws.com/iiif/collection.json')
-#parse.run(url='https://miiify.rocks/manifest/diamond_jubilee_of_the_metro')
-parse.run(url='https://iiif.io/api/cookbook/recipe/0266-full-canvas-annotation/manifest.json')
-#parse.run(url='https://iiif.io/api/cookbook/recipe/0269-embedded-or-referenced-annotations/manifest.json')
+try:
+    arg = sys.argv[1]
+except IndexError:
+    raise SystemExit(f"Usage: {sys.argv[0]} <URI>")
 
+parse = Parse(ctx)
+parse.run(url=arg)
 
 app = Flask(__name__)
 
