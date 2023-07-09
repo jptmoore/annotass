@@ -167,13 +167,21 @@ class Parse:
             case _:
                 self.pp_exit('failed to find collection or manifest')
 
+    def has_motivation(self, item, motivation):
+        annotation = Annotation(**item)
+        match motivation:
+            case []:
+                return True
+            case [x]:
+                motivations = (x.split(' '))
+                return annotation.motivation in motivations
 
-    def search(self, q, page):
+    def search(self, q, motivation, page):
         (total, uris) = self.data.search_data(q, page)
         items = []
         for uri in uris:
             item = self.store.read(uri)
-            items.append(item)
+            if self.has_motivation(item, motivation): items.append(item)
         result = self.response.build(q, page, total, items)
         return result
     

@@ -20,9 +20,9 @@ ctx.cors = config_ini.getboolean("annotass", "CORS")
 ctx.search_url = "https://miiify.rocks/iiif/content/search"
 
 parse = Parse(ctx)
-parse.run(url='https://miiifystore.s3.eu-west-2.amazonaws.com/iiif/collection.json')
+#parse.run(url='https://miiifystore.s3.eu-west-2.amazonaws.com/iiif/collection.json')
 #parse.run(url='https://miiify.rocks/manifest/diamond_jubilee_of_the_metro')
-#parse.run(url='https://iiif.io/api/cookbook/recipe/0266-full-canvas-annotation/manifest.json')
+parse.run(url='https://iiif.io/api/cookbook/recipe/0266-full-canvas-annotation/manifest.json')
 #parse.run(url='https://iiif.io/api/cookbook/recipe/0269-embedded-or-referenced-annotations/manifest.json')
 
 
@@ -33,8 +33,9 @@ app = Flask(__name__)
 def search():
     q = request.args.get('q')
     if q == None: abort(404)
+    motivation = request.args.getlist(key='motivation')
     page = request.args.get('page', 0, type=int)
-    response = parse.search(q, page)
+    response = parse.search(q, motivation, page)
     custom_response = make_response(response)
     if ctx.cors: custom_response.headers['Access-Control-Allow-Origin'] = '*'
     return custom_response
