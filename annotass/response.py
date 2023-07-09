@@ -4,11 +4,12 @@ class Response:
         self.search_url = ctx.search_url
         self.annotation_limit = ctx.annotation_limit
 
-    def simple_template(self, q, page, items):
+    def simple_template(self, q, ignored, page, items):
         dict = {
             "@context": "http://iiif.io/api/search/2/context.json",
             "id": f"{self.search_url}?q={q}&page={page}",
             "type": "AnnotationPage",
+            "ignored": ignored,
             "items": items,
         }
         return dict
@@ -27,10 +28,10 @@ class Response:
         }
         return dict
 
-    def paged_template(self, q, page, total, items):
+    def paged_template(self, q, ignored, page, total, items):
         start_index = page * self.annotation_limit
         total_pages = int(total / self.annotation_limit)
-        dict = self.simple_template(q, page, items)
+        dict = self.simple_template(q, ignored, page, items)
         dict.update(self.part_of(q, total, total_pages))
         if page > 0:
             dict["prev"] = f"{self.search_url}?q={q}&page={page-1}"
@@ -39,8 +40,8 @@ class Response:
         dict["start_index"] = start_index
         return dict
 
-    def build(self, q, page, total, items):
+    def build(self, q, ignored, page, total, items):
         if total > self.annotation_limit:  # if paged response
-            return self.paged_template(q, page, total, items)
+            return self.paged_template(q, ignored, page, total, items)
         else:
-            return self.simple_template(q, page, items)
+            return self.simple_template(q, ignored, page, items)

@@ -26,7 +26,6 @@ parse.run(url='https://iiif.io/api/cookbook/recipe/0266-full-canvas-annotation/m
 #parse.run(url='https://iiif.io/api/cookbook/recipe/0269-embedded-or-referenced-annotations/manifest.json')
 
 
-
 app = Flask(__name__)
 
 @app.route('/search')
@@ -34,8 +33,10 @@ def search():
     q = request.args.get('q')
     if q == None: abort(404)
     motivation = request.args.getlist(key='motivation')
+    date = request.args.get('date')
+    user = request.args.get('user')
     page = request.args.get('page', 0, type=int)
-    response = parse.search(q, motivation, page)
+    response = parse.search(q, motivation, date, user, page)
     custom_response = make_response(response)
     if ctx.cors: custom_response.headers['Access-Control-Allow-Origin'] = '*'
     return custom_response

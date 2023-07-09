@@ -176,13 +176,21 @@ class Parse:
                 motivations = (x.split(' '))
                 return annotation.motivation in motivations
 
-    def search(self, q, motivation, page):
+    # to be implemented later
+    def handle_ignored(self, date, user):
+        ignored = []
+        if date != None: ignored.append('date')
+        if user != None: ignored.append('user')
+        return ignored
+        
+    def search(self, q, motivation, date, user, page):
         (total, uris) = self.data.search_data(q, page)
         items = []
         for uri in uris:
             item = self.store.read(uri)
             if self.has_motivation(item, motivation): items.append(item)
-        result = self.response.build(q, page, total, items)
+        ignored = self.handle_ignored(date, user)
+        result = self.response.build(q, ignored, page, total, items)
         return result
     
     def shutdown(self):
