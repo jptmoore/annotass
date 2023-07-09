@@ -19,7 +19,7 @@ ctx.store_fname = config_ini.get("annotass", "STORE_FNAME")
 ctx.server_port = config_ini.getint("annotass", "SERVER_PORT")
 ctx.debug = config_ini.getboolean("annotass", "DEBUG")
 ctx.cors = config_ini.getboolean("annotass", "CORS")
-ctx.search_url = "https://miiify.rocks/iiif/content/search"
+ctx.search_url = config_ini.get("annotass", "SEARCH_URL") 
 
 try:
     arg = sys.argv[1]
