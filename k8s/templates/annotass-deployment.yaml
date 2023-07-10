@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: annotass
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: annotass
+  template:
+    metadata:
+      labels:
+        app: annotass
+    spec:
+#      nodeSelector:
+#        disktype: ssd
+      containers:
+        - name: annotass
+          image: "jptmoore/annotass"
+      #     volumeMounts:
+      #       - name: annotass
+      #         mountPath: /data
+      # securityContext:
+      #   runAsUser: 1000
+      #   runAsGroup: 1000
+      #   fsGroup: 1000
+      # volumes:
+      #   - name: annotass
+      #     persistentVolumeClaim:
+      #       claimName: "miiify-pvc"
