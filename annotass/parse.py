@@ -13,11 +13,14 @@ class Parse:
         self.response = Response(ctx)
         self.cache = requests_cache.CachedSession(ctx.cache_fname)
 
-    def pp(self, msg):
+    def pp_info(self, msg):
         print(f"\U0001F680 {msg}")
 
-    def pp_exit(self, msg):
-        print(f"\n\U0001F4A5 {msg}", file=sys.stderr)
+    def pp_warn(self, msg):
+        print(f"\U000026A0 {msg}")    
+
+    def pp_error(self, msg):
+        print(f"\U0001F4A5 {msg}", file=sys.stderr)
         sys.exit(1)
 
     def basic_headers(self):
@@ -29,9 +32,9 @@ class Parse:
         try:
             response = self.cache.get(url, headers=headers)
         except Exception as e:
-            self.pp_exit('failed to fetch json')
+            self.pp_error('failed to fetch json')
         if response.status_code != 200:
-            self.pp_exit('failed to get a 200 response code')
+            self.pp_error('failed to get a 200 response code')
         else:
             result = response.json()
             return result
@@ -49,13 +52,13 @@ class Parse:
                 self.data.write_data(id=id, content=body.value)
                 self.store.write(uri=id, annotation=x.json())
             case _:
-                self.pp_exit('failed to find annotation')
+                self.pp_error('failed to find annotation')
 
 
     def match_wc3_annotations(self, x):
         match x:
             case []:
-                self.pp_exit('no W3C annotations to process')
+                self.pp_error('no W3C annotations to process')
             case [*xs]:
                 for x in xs:
                     self.match_w3c_annotation_item(x)
@@ -71,23 +74,26 @@ class Parse:
                     case [*xs]:
                         self.match_wc3_annotations(xs)
             case _:
-                self.pp_exit('failed to find annotation page')
+                self.pp_error('failed to find annotation page')
 
 
     def match_annotations(self, x):
         match x:
             case []:
-                self.pp_exit('no annotations to process')
+                self.pp_warn('found an empty annotation list')
+                pass
             case [*xs]:
                 for x in xs:
                     self.match_annotation_content_item(x)
+            case _:
+                self.pp_error('failed to find annotations')
 
     def match_manifest_item(self, x):
         match x:
-            case Canvas(items=items, annotations=annotations):
+            case Canvas(annotations=annotations):
                 self.match_annotations(annotations)
             case _:
-                self.pp_exit('failed to find canvas items')
+                self.pp_error('failed to find canvas annotations')
         
 
     def get_manifest_content(self, url):
@@ -103,7 +109,7 @@ class Parse:
                 for item in items:
                     self.match_manifest_item(item)
             case _:
-                self.pp_exit('failed to find manifest items')
+                self.pp_error('failed to find manifest items')
 
 
 
@@ -118,7 +124,7 @@ class Parse:
             case Collection():
                 print('Collection')
             case _:
-                self.pp_exit('only supports Manifest, ManifestRef', 'CollectionRef',  'Collection')
+                self.pp_error('only supports Manifest, ManifestRef', 'CollectionRef',  'Collection')
         
 
     def process_collection(self, x):
@@ -127,11 +133,11 @@ class Parse:
                 for item in items:
                     self.match_collection_item(item)
             case _:
-                self.pp_exit('failed to find collection items')
+                self.pp_error('failed to find collection items')
 
 
     def run_collection(self, json):
-        self.pp("processing collection...")
+        self.pp_info("processing collection...")
         collection = Collection(**json)
         self.store.open()
         self.store.create_table()
@@ -145,10 +151,10 @@ class Parse:
                 for item in items:
                     self.match_manifest_item(item)
             case _:
-                self.pp_exit('failed to find manifest items')        
+                self.pp_error('failed to find manifest items')        
 
     def run_manifest(self, json):
-        self.pp("processing manifest...")
+        self.pp_info("processing manifest...")
         manifest = Manifest(**json)
         self.store.open()
         self.store.create_table()
@@ -165,7 +171,7 @@ class Parse:
             case 'Manifest':
                 self.run_manifest(json)            
             case _:
-                self.pp_exit('failed to find collection or manifest')
+                self.pp_error('failed to find collection or manifest')
 
     def has_motivation(self, item, motivation):
         annotation = Annotation(**item)

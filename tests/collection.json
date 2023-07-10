@@ -1,0 +1,50 @@
+{
+    "@context": [
+      "http://iiif.io/api/presentation/3/context.json"
+    ],
+    "type": "Collection",
+    "id": "https://miiify.rocks/manifest/collection.json",
+    "label": {
+      "en": [
+        "Simple example of a collection"
+      ]
+    },
+    "items": [
+      {
+        "id": "https://miiify.rocks/manifest/intro_valor_ecclesiasticus",
+        "type": "Manifest",
+        "label": {
+          "en": [
+            "Introduction to the Valor Ecclesiasticus"
+          ]
+        }
+      },
+      {
+        "id": "https://miiify.rocks/manifest/diamond_jubilee_of_the_metro",
+        "type": "Manifest",
+        "label": {
+          "en": [
+            "Diamond jubilee of the Metro"
+          ]
+        }
+      },
+      {
+        "id": "https://miiify.rocks/manifest/british_poets_1759_1834",
+        "type": "Manifest",
+        "label": {
+          "en": [
+            "The works of the British poets"
+          ]
+        }
+      },
+      {
+        "id": "https://miiify.rocks/manifest/rustic_walking_routes",
+        "type": "Manifest",
+        "label": {
+          "en": [
+            "Rustic walking routes"
+          ]
+        }
+      }
+    ]
+  }
