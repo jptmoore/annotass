@@ -17,6 +17,7 @@ spec:
       containers:
         - name: annotass
           image: "jptmoore/annotass"
+          args: ["https://miiifystore.s3.eu-west-2.amazonaws.com/iiif/collection.json"]
       #     volumeMounts:
       #       - name: annotass
       #         mountPath: /data
