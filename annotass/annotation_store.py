@@ -2,10 +2,8 @@ import sqlite3
 import os, os.path
 import ast
 
-from context import Context
-
 class Store:
-    def __init__(self, ctx: Context) -> None:
+    def __init__(self, ctx: object) -> None:
         self.conn = None
         self.store_fname = ctx.store_fname
         if os.path.exists(ctx.store_fname):

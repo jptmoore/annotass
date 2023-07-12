@@ -3,11 +3,8 @@ from whoosh.index import create_in
 from whoosh.fields import Schema, ID, TEXT
 from whoosh.qparser import QueryParser
 
-from context import Context
-
-
 class Data:
-    def __init__(self, ctx: Context) -> None:
+    def __init__(self, ctx: object) -> None:
         self.index_fname = ctx.index_fname
         self.annotation_limit = ctx.annotation_limit
         self.schema = Schema(id=ID(stored=True), content=TEXT)
