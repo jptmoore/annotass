@@ -1,25 +1,11 @@
 from flask import Flask, request, make_response, abort
 from parse import Parse
 from configparser import ConfigParser
+from context import Context
 
 import sys
 
-config_ini = ConfigParser()
-config_ini.read("config.ini")
-
-class Context:
-    pass
-
 ctx = Context()
-ctx.version = config_ini.get("main", "VERSION")
-ctx.annotation_limit = config_ini.getint("annotass", "ANNOTATION_LIMIT")
-ctx.cache_fname = config_ini.get("annotass", "CACHE_FNAME")
-ctx.index_fname = config_ini.get("annotass", "INDEX_FNAME")
-ctx.store_fname = config_ini.get("annotass", "STORE_FNAME") 
-ctx.server_port = config_ini.getint("annotass", "SERVER_PORT")
-ctx.debug = config_ini.getboolean("annotass", "DEBUG")
-ctx.cors = config_ini.getboolean("annotass", "CORS")
-ctx.search_url = config_ini.get("annotass", "SEARCH_URL") 
 
 try:
     arg = sys.argv[1]

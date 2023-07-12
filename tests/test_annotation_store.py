@@ -23,8 +23,8 @@ class TestStore(unittest.TestCase):
     def test_write_read(self):
         self.store.write(uri, annotation)
         self.store.commit()
-        dict = self.store.read(uri)
-        self.assertEqual(json.dumps(dict), annotation, "write/read test")
+        d = self.store.read(uri)
+        self.assertEqual(json.dumps(d), annotation, "write/read test")
 
     @classmethod
     def tearDownClass(self):
