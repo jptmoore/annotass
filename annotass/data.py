@@ -1,6 +1,6 @@
 import os, os.path
 from whoosh.index import create_in
-from whoosh.fields import *
+from whoosh.fields import Schema, ID, TEXT
 from whoosh.qparser import QueryParser
 
 class Data:
