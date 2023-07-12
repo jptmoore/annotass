@@ -32,8 +32,7 @@ class TestStore(unittest.TestCase):
         try:
             _ = self.store.read(uri="bar")
         except Exception as e:
-            self.assertEqual(str(e), "no record found", "write/read test")
-
+            self.assertEqual(str(e), "no record found", "write/read not found test")
 
     @classmethod
     def tearDownClass(self):
