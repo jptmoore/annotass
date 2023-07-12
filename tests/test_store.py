@@ -1,7 +1,7 @@
 import unittest
 import os
 import json
-from annotass.store import Store
+from annotass.annotation_store import Store
 
 class Context:
     pass

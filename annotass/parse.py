@@ -1,8 +1,8 @@
 import sys
 import requests_cache
 from iiif_prezi3 import Manifest, ManifestRef, CollectionRef, Collection, Canvas, Annotation, AnnotationPage
-from data import Data
-from store import Store
+from search_data import Data
+from annotation_store import Store
 from response import Response
 
 class Parse:
