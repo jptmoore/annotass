@@ -1,6 +1,5 @@
 from flask import Flask, request, make_response, abort
 from parse import Parse
-from configparser import ConfigParser
 from context import Context
 
 import sys
