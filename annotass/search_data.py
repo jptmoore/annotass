@@ -3,14 +3,17 @@ from whoosh.index import create_in
 from whoosh.fields import Schema, ID, TEXT
 from whoosh.qparser import QueryParser
 
+from context import Context
+
+
 class Data:
-    def __init__(self, ctx):
+    def __init__(self, ctx: Context) -> None:
         self.index_fname = ctx.index_fname
         self.annotation_limit = ctx.annotation_limit
         self.schema = Schema(id=ID(stored=True), content=TEXT)
         self.idx = None
 
-    def write_data(self, id, content):
+    def write_data(self, id: str, content: str) -> None:
         writer = self.idx.writer()
         writer.add_document(id=id, content=content)
         writer.commit()       
@@ -23,7 +26,7 @@ class Data:
         return idx 
 
 
-    def search_data(self, term, page):
+    def search_data(self, term: str, page: int) -> None:
         try:
             if page < 0: return (0, [])
             qp = QueryParser("content", schema=self.idx.schema)
