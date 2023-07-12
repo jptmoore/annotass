@@ -26,6 +26,15 @@ class TestStore(unittest.TestCase):
         d = self.store.read(uri)
         self.assertEqual(json.dumps(d), annotation, "write/read test")
 
+    def test_write_read_not_found(self):
+        self.store.write(uri="foo", annotation=annotation)
+        self.store.commit()
+        try:
+            _ = self.store.read(uri="bar")
+        except Exception as e:
+            self.assertEqual(str(e), "no record found", "write/read test")
+
+
     @classmethod
     def tearDownClass(self):
         self.store.close()
