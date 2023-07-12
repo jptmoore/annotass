@@ -163,6 +163,5 @@ cython_debug/
 .vscode/
 
 # runtime files
-annotass/index_annotass/
 *.sqlite
 *.whoosh
