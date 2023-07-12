@@ -28,10 +28,12 @@ class Store:
         cursor.execute(sql, {"uri": uri})
         row = cursor.fetchone()
         match row:
+            case None:
+                raise Exception('no record found')
             case (x,):
                 return ast.literal_eval(x)
             case _:
-                raise('ouch')
+                raise Exception('error retrieving row')
 
     def commit(self):
         self.conn.commit()   
