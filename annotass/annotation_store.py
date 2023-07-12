@@ -23,7 +23,7 @@ class Store:
         sql = f"insert into annotations (uri, data) values (?, ?);"
         cursor.execute(sql, (uri, annotation))
 
-    def read(self, uri: str) -> dict: 
+    def read(self, uri: str) -> dict[str, object]: 
         cursor = self.conn.cursor()
         sql = f"select data from annotations where uri = :uri;"
         cursor.execute(sql, {"uri": uri})

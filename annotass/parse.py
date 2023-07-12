@@ -164,7 +164,7 @@ class Parse:
         self.store.commit()          
 
 
-    def run(self, url):
+    def run(self, url: str) -> None:
         self.index = self.data.create_index()
         json = self.__get_json(url)
         match json['type']:
@@ -191,7 +191,7 @@ class Parse:
         if user != None: ignored.append('user')
         return ignored
         
-    def search(self, q, motivation, date, user, page):
+    def search(self, q: str, motivation: str, date: str, user: str, page: int) -> dict[str, object]:
         (total, uris) = self.data.search_data(q, page)
         items = []
         for uri in uris:
@@ -201,7 +201,7 @@ class Parse:
         result = self.response.build(q, ignored, page, total, items)
         return result
     
-    def shutdown(self):
+    def shutdown(self) -> None:
         self.store.close()
 
         
