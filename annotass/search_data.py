@@ -27,23 +27,19 @@ class Data:
 
 
     def search_data(self, term: str, page: int) -> None:
-        try:
-            if page < 0: return (0, [])
-            qp = QueryParser("content", schema=self.idx.schema)
-            query = qp.parse(term)
-            with self.idx.searcher() as s:
-                page_length = self.annotation_limit
-                results = s.search_page(query, page+1, pagelen=page_length)
-                results_length = len(results)
-                if page > (results_length / page_length): return (0, [])
-                uris = []
-                for r in results:
-                    uri = r.get('id')
-                    uris.append(uri)
-                result = (results_length, uris)
-        except Exception as e:
-            print("ouch")
-        else:
+        if page < 0: return (0, [])
+        qp = QueryParser("content", schema=self.idx.schema)
+        query = qp.parse(term)
+        with self.idx.searcher() as s:
+            page_length = self.annotation_limit
+            results = s.search_page(query, page+1, pagelen=page_length)
+            results_length = len(results)
+            if page > (results_length / page_length): return (0, [])
+            uris = []
+            for r in results:
+                uri = r.get('id')
+                uris.append(uri)
+            result = (results_length, uris)
             return result
         
 
