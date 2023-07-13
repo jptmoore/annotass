@@ -15,15 +15,14 @@ class Data:
         writer.add_document(id=id, content=content)
         writer.commit()       
 
-    def create_index(self):
+    def create_index(self) -> None:
         if not os.path.exists(self.index_fname):
             os.mkdir(self.index_fname)
         idx = create_in(self.index_fname, self.schema)
         self.idx = idx
-        return idx 
 
 
-    def search_data(self, term: str, page: int) -> None:
+    def search_data(self, term: str, page: int) -> tuple[int, list[str]]:
         if page < 0: return (0, [])
         qp = QueryParser("content", schema=self.idx.schema)
         query = qp.parse(term)

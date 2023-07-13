@@ -10,7 +10,6 @@ from context import Context
 class Parse:
     def __init__(self, ctx: Context) -> None:
         self.data = Data(ctx)
-        self.index = None
         self.store = Store(ctx)
         self.response = Response(ctx)
         self.cache = requests_cache.CachedSession(ctx.cache_fname)
@@ -165,7 +164,7 @@ class Parse:
 
 
     def run(self, url: str) -> None:
-        self.index = self.data.create_index()
+        self.data.create_index()
         json = self.__get_json(url)
         match json['type']:
             case 'Collection':
