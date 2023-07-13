@@ -1,9 +1,17 @@
 version: "3"
 
 services:
-  web:
+
+  annotation:
+    build: tests/web
+    ports:
+      - "3000:3000"
+
+  annotass:
     image: jptmoore/annotass
-    entrypoint: ["python", "app.py", "https://iiif.io/api/cookbook/recipe/0266-full-canvas-annotation/manifest.json"]
+    entrypoint: ["python", "app.py", "http://annotass-annotation-1:3000/referenced-manifest.json"]
     build: .
     ports:
       - "5555:5555"
+    depends_on:
+      - annotation
