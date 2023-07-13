@@ -1,0 +1,9 @@
+version: "3"
+
+services:
+  web:
+    image: jptmoore/annotass
+    entrypoint: ["python", "app.py", "https://iiif.io/api/cookbook/recipe/0266-full-canvas-annotation/manifest.json"]
+    build: .
+    ports:
+      - "5555:5555"
