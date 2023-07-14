@@ -43,5 +43,5 @@ Query the service:
 
 ### Todo
 
-* Implement all IIIF Content Search API 2.0 API
-* Handle all v3 manifest and collections
+* Implement all Content Search API 2.0
+* Handle all v3 manifest and collections gracefully
