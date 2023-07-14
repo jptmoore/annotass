@@ -13,7 +13,6 @@ WARNING: This is a development server. Do not use it in a production deployment.
  * Running on http://127.0.0.1:5555
  * Running on http://192.168.1.95:5555
 Press CTRL+C to quit
-
 ```
 
 Query the service:
@@ -21,7 +20,7 @@ Query the service:
 ❯ curl -s 'localhost:5555/search?q=mit' | jq
 {
   "@context": "http://iiif.io/api/search/2/context.json",
-  "id": "https://miiify.rocks/iiif/content/search?q=mit&page=0",
+  "id": "http://localhost:5555/search?q=mit&page=0",
   "ignored": [],
   "items": [
     {
@@ -40,7 +39,6 @@ Query the service:
   ],
   "type": "AnnotationPage"
 }
-
 ```
 
 ### Todo
