@@ -1,6 +1,6 @@
 # annotation search service
 
-### Turn a IIIF v3 manifest or collection into content search service.
+### Turn a IIIF v3 manifest or collection into a content search service
 
 Start up the server:
 ```
