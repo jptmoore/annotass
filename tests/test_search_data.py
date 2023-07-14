@@ -10,7 +10,7 @@ ctx.index_fname = "test_index.sqlite"
 ctx.annotation_limit = 10
 
 
-class TestData(unittest.TestCase):
+class UnitTest(unittest.TestCase):
 
     @classmethod
     def setUpClass(self):

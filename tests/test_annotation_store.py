@@ -12,7 +12,7 @@ ctx.store_fname = "test_store.sqlite"
 uri = "https://foobar"
 annotation = '{"foo": "bar"}'
 
-class TestStore(unittest.TestCase):
+class UnitTest(unittest.TestCase):
 
     @classmethod
     def setUpClass(self):
