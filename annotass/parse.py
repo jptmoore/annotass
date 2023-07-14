@@ -97,38 +97,42 @@ class Parse:
                 self.pp_error('failed to find canvas annotations')
         
 
+    def __get_collection_content(self, url):
+        json = self.__get_json(url)
+        collection = Collection(**json)
+        return collection
+
     def __get_manifest_content(self, url):
         json = self.__get_json(url)
         manifest = Manifest(**json)
         return manifest
 
 
-    def __get_manifest_ref(self, id):
-        manifest = self.__get_manifest_content(id)
-        match manifest:
+    def __match_collection_item(self, x):
+        match x:
+            case ManifestRef(id=id):
+                manifest = self.__get_manifest_content(id)
+                self.__match_collection_item(manifest)
+            case Manifest(id=id):
+                self.__match_manifest(x)
+            case CollectionRef(id=id):
+                collection = self.__get_collection_content(id)
+                self.__match_collection_item(collection)
+            case Collection(id=id):
+                self.__match_collection(x)
+            case _:
+                self.pp_error('only supports Manifest, ManifestRef', 'CollectionRef',  'Collection')
+
+
+    def __match_manifest(self, x):
+        match x:
             case Manifest(items=items):
                 for item in items:
                     self.__match_manifest_item(item)
             case _:
                 self.pp_error('failed to find manifest items')
 
-
-
-    def __match_collection_item(self, x):
-        match x:
-            case ManifestRef(id=id):
-                self.__get_manifest_ref(id)
-            case Manifest(id=id):
-                print('Manifest')
-            case CollectionRef():
-                print('CollectionRef')
-            case Collection():
-                print('Collection')
-            case _:
-                self.pp_error('only supports Manifest, ManifestRef', 'CollectionRef',  'Collection')
-        
-
-    def __process_collection(self, x):
+    def __match_collection(self, x):
         match x:
             case Collection(items=items):
                 for item in items:
@@ -142,24 +146,17 @@ class Parse:
         collection = Collection(**json)
         self.store.open()
         self.store.create_table()
-        self.__process_collection(collection)
+        self.__match_collection(collection)
         self.store.commit()        
 
-
-    def __process_manifest(self, x):
-        match x:
-            case Manifest(items=items):
-                for item in items:
-                    self.__match_manifest_item(item)
-            case _:
-                self.pp_error('failed to find manifest items')        
+      
 
     def __run_manifest(self, json):
         self.pp_info("processing manifest...")
         manifest = Manifest(**json)
         self.store.open()
         self.store.create_table()
-        self.__process_manifest(manifest)
+        self.__match_manifest(manifest)
         self.store.commit()          
 
 
