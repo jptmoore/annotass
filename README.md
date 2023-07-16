@@ -43,10 +43,9 @@ Query the service:
 
 ### Demo
 
-The OCR content available here https://github.com/jptmoore/awesome-iiif-annotations is available to search:
+The OCR content available here https://github.com/jptmoore/awesome-iiif-annotations is available to search e.g. https://miiify.rocks/iiif/content/search?q=eastcote
 
 ```
-❯ curl -s 'https://miiify.rocks/iiif/content/search?q=eastcote' | jq
 {
   "@context": "http://iiif.io/api/search/2/context.json",
   "id": "https://miiify.rocks/iiif/content/search?q=eastcote&page=0",
