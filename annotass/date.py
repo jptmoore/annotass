@@ -29,10 +29,16 @@ class Date:
             case _:
                 return False
 
-    def in_range(self, check: str, ranges: str) -> bool:
-        if ranges == None:
-            return True
-        else:
-            return any(
-                self.__in_range_helper(check=check, range=r) for r in ranges.split(" ")
-            )
+    def in_range(self, check: str | None, ranges: str | None) -> bool:
+        match check, ranges:
+            case None, None:
+                return True
+            case None, _:
+                return False
+            case _, None:
+                return True
+            case _, _:
+                return any(
+                    self.__in_range_helper(check=check, range=r)
+                    for r in ranges.split(" ")
+                )
