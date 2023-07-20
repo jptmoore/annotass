@@ -21,6 +21,7 @@ pluggy==1.2.0
 ply==3.11
 pydantic==1.10.10
 pytest==7.4.0
+python-dateutil==2.8.2
 requests==2.31.0
 requests-cache==1.1.0
 six==1.16.0
