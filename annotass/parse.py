@@ -58,7 +58,9 @@ class Parse:
 
     def __match_w3c_annotation_item(self, x):
         match x:
-            case Annotation(id=id, body=body):
+            case Annotation(
+                id=id, body=body, motivation=motivation
+            ) if motivation == "commenting" or motivation == "supplementing":
                 self.data.write_data(id=id, content=body.value)
                 self.store.write(uri=id, annotation=x.json())
             case _:
