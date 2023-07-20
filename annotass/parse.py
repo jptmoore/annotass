@@ -58,11 +58,16 @@ class Parse:
 
     def __match_w3c_annotation_item(self, x):
         match x:
-            case Annotation(
-                id=id, body=body, motivation=motivation
-            ) if motivation == "commenting" or motivation == "supplementing":
-                self.data.write_data(id=id, content=body.value)
-                self.store.write(uri=id, annotation=x.json())
+            case Annotation(id=id, body=body, motivation=motivation) if motivation in [
+                "commenting",
+                "supplementing",
+                "tagging",
+            ]:
+                if type(body) is list:
+                    self.pp_error("this type of annotation is currently not supported")
+                else:
+                    self.data.write_data(id=id, content=body.value)
+                    self.store.write(uri=id, annotation=x.json())
             case _:
                 self.pp_error("failed to find annotation")
 
