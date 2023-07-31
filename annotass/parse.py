@@ -6,6 +6,7 @@ from iiif_prezi3 import (
     CollectionRef,
     Collection,
     Canvas,
+    CanvasRef,
     Annotation,
     AnnotationPage,
     AnnotationPageRef,
@@ -106,10 +107,18 @@ class Parse:
             case _:
                 self.pp_error("failed to find annotations")
 
+    def __get_canvas_content(self, url):
+        json = self.__get_json(url)
+        cc = Canvas(**json)
+        return cc
+
     def __match_manifest_item(self, x):
         match x:
             case Canvas(annotations=annotations):
                 self.__match_annotations(annotations)
+            case CanvasRef(id=id):
+                cc = self.__get_canvas_content(id)
+                self.__match_manifest_item(cc)                
             case _:
                 self.pp_error("failed to find canvas annotations")
 
