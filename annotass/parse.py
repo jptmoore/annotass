@@ -11,6 +11,8 @@ from iiif_prezi3 import (
     AnnotationPage,
     AnnotationPageRef,
 )
+from pydantic import Extra
+Annotation.Config.extra = Extra.allow
 from search_data import Data
 from annotation_store import Store
 from date import Date
