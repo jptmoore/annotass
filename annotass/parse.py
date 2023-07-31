@@ -8,6 +8,7 @@ from iiif_prezi3 import (
     Canvas,
     Annotation,
     AnnotationPage,
+    AnnotationPageRef,
 )
 from search_data import Data
 from annotation_store import Store
@@ -88,6 +89,9 @@ class Parse:
                         self.__match_annotation_content_item(ap)
                     case [*xs]:
                         self.__match_wc3_annotations(xs)
+            case AnnotationPageRef(id=id):
+                ap = self.__get_annotation_page_content(id)
+                self.__match_annotation_content_item(ap)
             case _:
                 self.pp_error("failed to find annotation page")
 
