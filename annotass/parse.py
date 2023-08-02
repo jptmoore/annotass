@@ -11,7 +11,7 @@ from iiif_prezi3 import (
     AnnotationPage,
     AnnotationPageRef,
 )
-from pydantic import Extra
+from pydantic import Extra, ValidationError
 Annotation.Config.extra = Extra.allow
 from search_data import Data
 from annotation_store import Store
@@ -57,7 +57,10 @@ class Parse:
 
     def __get_annotation_page_content(self, url):
         json = self.__get_json(url)
-        ap = AnnotationPage(**json)
+        try:
+            ap = AnnotationPage(**json)
+        except ValidationError:
+            self.pp_error("Could not validate AnnotationPage")
         return ap
 
     def __match_w3c_annotation_item(self, x):
@@ -111,7 +114,10 @@ class Parse:
 
     def __get_canvas_content(self, url):
         json = self.__get_json(url)
-        cc = Canvas(**json)
+        try:
+            cc = Canvas(**json)
+        except ValidationError:
+            self.pp_error("Could not validate the canvas")
         return cc
 
     def __match_manifest_item(self, x):
@@ -126,12 +132,18 @@ class Parse:
 
     def __get_collection_content(self, url):
         json = self.__get_json(url)
-        collection = Collection(**json)
+        try:
+            collection = Collection(**json)
+        except ValidationError:
+            self.pp_error("Could not validate the collection")
         return collection
 
     def __get_manifest_content(self, url):
         json = self.__get_json(url)
-        manifest = Manifest(**json)
+        try:
+            manifest = Manifest(**json)
+        except ValidationError:
+            self.pp_error("Could not validate the manifest")
         return manifest
 
     def __match_collection_item(self, x):
@@ -169,7 +181,10 @@ class Parse:
 
     def __run_collection(self, json):
         self.pp_info("processing collection...")
-        collection = Collection(**json)
+        try:
+            collection = Collection(**json)
+        except ValidationError:
+            self.pp_error("Could not validate the collection")
         self.store.open()
         self.store.create_table()
         self.__match_collection(collection)
@@ -177,7 +192,10 @@ class Parse:
 
     def __run_manifest(self, json):
         self.pp_info("processing manifest...")
-        manifest = Manifest(**json)
+        try:        
+            manifest = Manifest(**json)
+        except ValidationError:
+            self.pp_error("Could not validate the manifest")        
         self.store.open()
         self.store.create_table()
         self.__match_manifest(manifest)
@@ -193,6 +211,7 @@ class Parse:
                 self.__run_manifest(json)
             case _:
                 self.pp_error("failed to find collection or manifest")
+ 
 
     def __has_motivation(self, item, motivation):
         annotation = Annotation(**item)
