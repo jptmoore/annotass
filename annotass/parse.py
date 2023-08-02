@@ -13,11 +13,13 @@ from iiif_prezi3 import (
 )
 from pydantic import Extra, ValidationError
 Annotation.Config.extra = Extra.allow
+
+from sqlite3 import IntegrityError
+
 from search_data import Data
 from annotation_store import Store
 from date import Date
 from response import Response
-
 from context import Context
 
 
@@ -62,6 +64,22 @@ class Parse:
         except ValidationError:
             self.pp_error("Could not validate AnnotationPage")
         return ap
+    
+    def __write_data(self, id, annotation, content):
+        data = annotation.json()
+        self.data.write_data(id=id, content=content)
+        try:
+            self.store.write(uri=id, annotation=data)
+        except IntegrityError:
+            self.pp_error("failed as annotations id's are not unique")        
+
+    def __handle_body_as_list(self, id, annotation, body):
+        for index, item in enumerate(body):
+            unique_id = f"{id}_{index}"
+            self.__write_data(id=unique_id, annotation=annotation, content=item["value"])
+
+    def __handle_body_as_object(self, id, annotation, body):
+        self.__write_data(id, annotation, content=body.value)
 
     def __match_w3c_annotation_item(self, x):
         match x:
@@ -71,10 +89,9 @@ class Parse:
                 "tagging",
             ]:
                 if type(body) is list:
-                    self.pp_error("this type of annotation is currently not supported")
+                    self.__handle_body_as_list(id, x, body)
                 else:
-                    self.data.write_data(id=id, content=body.value)
-                    self.store.write(uri=id, annotation=x.json())
+                    self.__handle_body_as_object(id, x, body)
             case _:
                 self.pp_error("failed to find annotation")
 
