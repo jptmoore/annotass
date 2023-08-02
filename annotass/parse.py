@@ -76,7 +76,8 @@ class Parse:
     def __handle_body_as_list(self, id, annotation, body):
         for index, item in enumerate(body):
             unique_id = f"{id}_{index}"
-            self.__write_data(id=unique_id, annotation=annotation, content=item["value"])
+            if "value" in item:
+                self.__write_data(id=unique_id, annotation=annotation, content=item["value"])
 
     def __handle_body_as_object(self, id, annotation, body):
         self.__write_data(id, annotation, content=body.value)
