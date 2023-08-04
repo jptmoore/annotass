@@ -4,7 +4,7 @@
 
 Start up the server:
 ```
-❯ python app.py https://iiif.io/api/cookbook/recipe/0269-embedded-or-referenced-annotations/manifest.json
+❯ docker run -it -p 5555:5555 jptmoore/annotass https://iiif.io/api/cookbook/recipe/0269-embedded-or-referenced-annotations/manifest.json
 🚀 processing manifest...
  * Serving Flask app 'app'
  * Debug mode: off
