@@ -41,11 +41,13 @@ Query the service:
 }
 ```
 
-### Cookbook annotation recipes
+### Cookbook recipes
 <!--- inspiration from https://github.com/jbaiter/pdiiif/blob/main/README.md --->
 
+The IIIF cookbook has the following [annotation recipes](https://iiif.io/api/cookbook/recipe/matrix/#annotation-recipes).
+
 <details>
-<summary><strong>[Annotation recipes](https://iiif.io/api/cookbook/recipe/matrix/#annotation-recipes)</strong> (5 of 7 supported)</summary>
+<summary><strong>Matrix (5 out of 7 supported)</strong></summary>
 
 - [x] Simple Annotation — Tagging: https://iiif.io/api/cookbook/recipe/0021-tagging/manifest.json
 - [x] Tagging with an External Resource: https://iiif.io/api/cookbook/recipe/0258-tagging-external-resource/manifest.json
