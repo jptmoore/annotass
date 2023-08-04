@@ -41,6 +41,22 @@ Query the service:
 }
 ```
 
+### Cookbook annotation recipes
+<!--- inspiration from https://github.com/jbaiter/pdiiif/blob/main/README.md --->
+
+<details>
+<summary><strong>[Annotation recipes](https://iiif.io/api/cookbook/recipe/matrix/#annotation-recipes)</strong> (5 of 7 supported)</summary>
+
+- [x] Simple Annotation — Tagging: https://iiif.io/api/cookbook/recipe/0021-tagging/manifest.json
+- [x] Tagging with an External Resource: https://iiif.io/api/cookbook/recipe/0258-tagging-external-resource/manifest.json
+- [x] Annotation with a Non-Rectangular Polygon: https://iiif.io/api/cookbook/recipe/0261-non-rectangular-commenting/manifest.json
+- [x] Simplest Annotation: https://iiif.io/api/cookbook/recipe/0266-full-canvas-annotation/manifest.json
+- [x] Embedded or referenced Annotations: https://iiif.io/api/cookbook/recipe/0269-embedded-or-referenced-annotations/manifest.json
+- [ ] Linking external Annotations targeting a Canvas to a Manifest: https://iiif.io/api/cookbook/recipe/0306-linking-annotations-to-manifests/annotationpage.json
+- [ ] Annotate specific images or layers: https://iiif.io/api/cookbook/recipe/0326-annotating-image-layer/manifest.json
+</details>
+
+
 ### Demo
 
 The OCR content available here https://github.com/jptmoore/awesome-iiif-annotations is available to search e.g. https://miiify.rocks/iiif/content/search?q=eastcote
