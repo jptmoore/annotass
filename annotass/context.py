@@ -14,4 +14,5 @@ class Context:
     server_port = config_ini.getint("annotass", "SERVER_PORT")
     debug = config_ini.getboolean("annotass", "DEBUG")
     cors = config_ini.getboolean("annotass", "CORS")
-    search_url = config_ini.get("annotass", "SEARCH_URL") 
+    search_url = config_ini.get("annotass", "SEARCH_URL")
+    manifest_url =  config_ini.get("annotass", "MANIFEST_URL")

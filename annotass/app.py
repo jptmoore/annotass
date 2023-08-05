@@ -9,7 +9,7 @@ ctx = Context()
 try:
     arg = sys.argv[1]
 except IndexError:
-    raise SystemExit(f"Usage: {sys.argv[0]} <URI>")
+    arg = ctx.manifest_url
 
 parse = Parse(ctx)
 parse.run(url=arg)
