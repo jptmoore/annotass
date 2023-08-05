@@ -33,4 +33,4 @@ def search():
     return custom_response
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', debug=ctx.debug, port=ctx.server_port)
+    app.run(host=ctx.server_ip, debug=ctx.debug, port=ctx.server_port)
