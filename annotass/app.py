@@ -16,6 +16,9 @@ parse.run(url=arg)
 
 app = Flask(__name__)
 
+@app.route('/version')
+def version(): return {"version": ctx.version}
+
 @app.route('/search')
 def search():
     q = request.args.get('q')
