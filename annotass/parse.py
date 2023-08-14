@@ -50,12 +50,16 @@ class Parse:
         try:
             response = self.cache.get(url, headers=headers)
         except Exception as e:
-            self.pp_error("failed to fetch json")
+            self.pp_error(f"failed to fetch json: {repr(e)}")
         if response.status_code != 200:
             self.pp_error("failed to get a 200 response code")
         else:
-            result = response.json()
-            return result
+            try:
+                result = response.json()
+            except Exception as e:
+                self.pp_error(f"failed to parse json: {repr(e)}")
+            else:
+                return result
 
     def __get_annotation_page_content(self, url):
         json = self.__get_json(url)
