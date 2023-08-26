@@ -1,3 +1,4 @@
+import urllib.parse
 
 class Response:
     def __init__(self, ctx):
@@ -5,9 +6,10 @@ class Response:
         self.annotation_limit = ctx.annotation_limit
 
     def simple_template(self, q, ignored, page, items):
+        escaped_q = urllib.parse.quote(q)
         dict = {
             "@context": "http://iiif.io/api/search/2/context.json",
-            "id": f"{self.search_url}?q={q}&page={page}",
+            "id": f"{self.search_url}?q={escaped_q}&page={page}",
             "type": "AnnotationPage",
             "ignored": ignored,
             "items": items,
