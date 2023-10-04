@@ -28,6 +28,6 @@ six==1.16.0
 tomli==2.0.1
 typing_extensions==4.7.0
 url-normalize==1.4.3
-urllib3==2.0.3
+urllib3==2.0.6
 Werkzeug==2.3.6
 Whoosh==2.7.4
