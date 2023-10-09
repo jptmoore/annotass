@@ -16,7 +16,8 @@ Annotation.Config.extra = Extra.allow
 
 from sqlite3 import IntegrityError
 
-from search_data import Data
+#from search_data import Data
+from semantic_data import Data
 from annotation_store import Store
 from date import Date
 from response import Response
@@ -224,7 +225,7 @@ class Parse:
         self.store.commit()
 
     def run(self, url: str) -> None:
-        self.data.create_index()
+        #self.data.create_index()
         json = self.__get_json(url)
         match json["type"]:
             case "Collection":

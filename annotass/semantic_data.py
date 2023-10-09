@@ -1,8 +1,5 @@
 import chromadb
 
-class Context:
-    pass
-
 class Data:
     def __init__(self, ctx: object) -> None:
         self.annotation_limit = ctx.annotation_limit
@@ -25,11 +22,13 @@ class Data:
         result = (results_len, uris)
         return result
 
+# class Context:
+#     pass
 
-ctx = Context()
-ctx.annotation_limit = 200
-data = Data(ctx)
-data.write_data(id="foo", content="the cat sat on the mat")
-data.write_data(id="bar", content="the tabby has grey and white stripes")
-result = data.search_data("a cat", 1)
-print(result)
+# ctx = Context()
+# ctx.annotation_limit = 200
+# data = Data(ctx)
+# data.write_data(id="foo", content="the cat sat on the mat")
+# data.write_data(id="bar", content="the tabby has grey and white stripes")
+# result = data.search_data("a cat", 1)
+# print(result)
