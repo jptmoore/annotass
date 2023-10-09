@@ -17,4 +17,3 @@ class Context:
     cors = config_ini.getboolean("annotass", "CORS")
     search_url = config_ini.get("annotass", "SEARCH_URL")
     manifest_url =  config_ini.get("annotass", "MANIFEST_URL")
-    distance_threshold = config_ini.getfloat("annotass", "DISTANCE_THRESHOLD")
