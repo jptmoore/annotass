@@ -8,6 +8,7 @@ config_ini.read("config.ini")
 class Context:
     version = config_ini.get("main", "VERSION")
     annotation_limit = config_ini.getint("annotass", "ANNOTATION_LIMIT")
+    cosine_distance = config_ini.getfloat("annotass", "COSINE_DISTANCE")
     cache_fname = config_ini.get("annotass", "CACHE_FNAME")
     index_fname = config_ini.get("annotass", "INDEX_FNAME")
     store_fname = config_ini.get("annotass", "STORE_FNAME")

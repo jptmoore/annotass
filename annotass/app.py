@@ -26,8 +26,11 @@ def search():
     motivation = request.args.getlist(key='motivation')
     date = request.args.get('date')
     user = request.args.get('user')
-    distance = request.args.get('distance', 1.0, type=float)
-    response = parse.search(q, motivation, date, user, distance)
+    n = request.args.get('n', ctx.annotation_limit, type=int)
+    if n < 1 or n > ctx.annotation_limit: abort(404)
+    distance = request.args.get('distance', ctx.cosine_distance, type=float)
+    if distance < 0.0 or distance > 2.0: abort(404) 
+    response = parse.search(q, motivation, date, user, n, distance)
     custom_response = make_response(response)
     if ctx.cors: custom_response.headers['Access-Control-Allow-Origin'] = '*'
     return custom_response

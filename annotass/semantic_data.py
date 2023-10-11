@@ -20,10 +20,10 @@ class Data:
         return result
 
 
-    def search_data(self, term: str, distance: float) -> tuple[int, list[str]]:
+    def search_data(self, term: str, n: int, distance: float) -> tuple[int, list[str]]:
         results = self.collection.query(
             query_texts=[term],
-            n_results=self.annotation_limit,
+            n_results=n,
         )
         #print(results)
         uris = self.__filter_distance(results, distance)

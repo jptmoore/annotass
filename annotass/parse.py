@@ -261,16 +261,16 @@ class Parse:
         return ignored
 
     def search(
-        self, q: str, motivation: str, date: str, user: str, distance: float
+        self, q: str, motivation: str, date: str, user: str, n: int, distance: float
     ) -> dict[str, object]:
-        (total, uris) = self.data.search_data(q, distance)
+        (total, uris) = self.data.search_data(q, n, distance)
         items = []
         for uri in uris:
             item = self.store.read(uri)
             if self.__has_motivation(item, motivation):
                 items.append(item)
         ignored = self.__handle_ignored(date, user)
-        result = self.response.build(q, ignored, distance, items)
+        result = self.response.build(q, ignored, n, distance, items)
         return result
 
     def shutdown(self) -> None:
