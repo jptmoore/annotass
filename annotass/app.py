@@ -19,6 +19,10 @@ app = Flask(__name__)
 @app.route('/version')
 def version(): return {"version": ctx.version}
 
+@app.route('/')
+def ok():
+    return 'OK'
+
 @app.route('/search')
 def search():
     q = request.args.get('q')
