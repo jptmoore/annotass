@@ -4,23 +4,23 @@
 
 Start up the server:
 ```
-❯ docker run -it -p 5555:5555 jptmoore/annotassai https://iiif.io/api/cookbook/recipe/0269-embedded-or-referenced-annotations/manifest.json
+❯ docker run -it -p 10000:10000 jptmoore/annotassai https://iiif.io/api/cookbook/recipe/0269-embedded-or-referenced-annotations/manifest.json
 🚀 processing manifest...
  * Serving Flask app 'app'
  * Debug mode: off
 WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
  * Running on all addresses (0.0.0.0)
- * Running on http://127.0.0.1:5555
- * Running on http://192.168.1.95:5555
+ * Running on http://127.0.0.1:10000
+ * Running on http://192.168.1.95:10000
 Press CTRL+C to quit
 ```
 
 Query the service:
 ```
-❯ curl -s 'localhost:5555/search?q=mit' | jq
+❯ curl -s 'localhost:10000/search?q=mit' | jq
 {
   "@context": "http://iiif.io/api/search/2/context.json",
-  "id": "http://localhost:5555/search?q=mit&page=0",
+  "id": "http://localhost:10000/search?q=mit&page=0",
   "ignored": [],
   "items": [
     {
