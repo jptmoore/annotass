@@ -1,3 +1,5 @@
+import os
+
 from flask import Flask, request, make_response, abort
 from parse import Parse
 from context import Context
@@ -19,7 +21,7 @@ app = Flask(__name__)
 @app.route('/version')
 def version(): return {"version": ctx.version}
 
-@app.route('/')
+@app.route('/ok')
 def ok():
     return 'OK'
 
@@ -40,4 +42,4 @@ def search():
     return custom_response
 
 if __name__ == '__main__':
-    app.run(host=ctx.server_ip, debug=ctx.debug, port=ctx.server_port)
+    app.run(host=ctx.server_ip, debug=ctx.debug, port=int(os.getenv('PORT', ctx.server_port)))
