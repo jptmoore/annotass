@@ -1,20 +1,30 @@
 import os
+import threading
 
+from parse import Parse  
 from flask import Flask, request, make_response, abort
-from parse import Parse
 from context import Context
 
 import sys
 
 ctx = Context()
+parse = Parse(ctx)
 
 try:
     arg = sys.argv[1]
 except IndexError:
     arg = os.getenv('MANIFEST_URL', ctx.manifest_url)
 
-parse = Parse(ctx)
-parse.run(url=arg)
+task_completed = False
+
+def run_parse_task(arg):
+    global task_completed
+    parse.run(url=arg)
+    task_completed = True
+
+def start_background_task(arg):
+    thread = threading.Thread(target=run_parse_task, args=(arg,))
+    thread.start()
 
 app = Flask(__name__)
 
@@ -23,8 +33,12 @@ def version(): return {"version": ctx.version}
 
 @app.route('/ok')
 def ok():
-    return 'OK'
-
+    if task_completed:
+        return "OK"
+    else:
+        response = make_response("processing manifest", 202)
+        return response
+    
 @app.route('/search')
 def search():
     q = request.args.get('q')
@@ -42,4 +56,5 @@ def search():
     return custom_response
 
 if __name__ == '__main__':
+    start_background_task(arg)
     app.run(host=ctx.server_ip, debug=ctx.debug, port=int(os.getenv('PORT', ctx.server_port)))
