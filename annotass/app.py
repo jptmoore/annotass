@@ -11,7 +11,7 @@ ctx = Context()
 try:
     arg = sys.argv[1]
 except IndexError:
-    arg = ctx.manifest_url
+    arg = os.getenv('MANIFEST_URL', ctx.manifest_url)
 
 parse = Parse(ctx)
 parse.run(url=arg)

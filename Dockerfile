@@ -8,4 +8,9 @@ RUN pip install -r requirements.txt
 
 COPY ./annotass /app
 
-ENTRYPOINT ["python", "app.py"]
+ENV FLASK_APP=app
+ENV FLASK_RUN_HOST=0.0.0.0
+ENV FLASK_RUN_PORT=10000
+
+ENTRYPOINT ["python"]
+CMD ["app.py"]
