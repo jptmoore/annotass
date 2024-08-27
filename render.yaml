@@ -1,8 +1,0 @@
-services:
-- type: web
-  name: annotassai
-  runtime: docker
-  repo: https://github.com/jptmoore/annotass.git
-  branch: annotassai
-  dockerCommand: ./render-deploy.sh
-  healthCheckPath: /ok
